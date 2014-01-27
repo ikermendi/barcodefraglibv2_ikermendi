@@ -123,7 +123,7 @@ public final class BarcodeFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		
 		// CameraManager must be initialized here, not in onCreate(). This is
 		// necessary because we don't
 		// want to open the camera driver and measure the screen size if we're
@@ -153,8 +153,6 @@ public final class BarcodeFragment extends Fragment implements
 
 		ambientLightManager.start(cameraManager);
 		inactivityTimer.onResume();
-		decodeFormats = null;
-		characterSet = null;
 	}
 
 	@Override
@@ -364,5 +362,13 @@ public final class BarcodeFragment extends Fragment implements
 
 	public void setScanResultHandler(IScanResultHandler resultHandler) {
 		this.resultHandler = resultHandler;
+	}
+	
+	public void setDecodeFormats(Collection<BarcodeFormat> formats) {
+		this.decodeFormats = formats;
+	}
+	
+	public void setDecodeHints(Map<DecodeHintType, ?> hints) {
+		this.decodeHints = hints;
 	}
 }
