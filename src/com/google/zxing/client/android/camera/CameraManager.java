@@ -58,6 +58,9 @@ public final class CameraManager {
   private boolean previewing;
   private int requestedFramingRectWidth;
   private int requestedFramingRectHeight;
+  
+  private boolean frontCameraIfAvailable;
+  
   /**
    * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
    * clear the handler so it will only receive one message.
@@ -65,10 +68,11 @@ public final class CameraManager {
   private final PreviewCallback previewCallback;
   private Activity captureFragment;
 
-  public CameraManager(Activity captureFragment, View view) {
+  public CameraManager(Activity captureFragment, View view, boolean frontCameraIfAvailable) {
     this.context = captureFragment.getApplicationContext();
     this.configManager = new CameraConfigurationManager(view);
     this.captureFragment = captureFragment;
+    this.frontCameraIfAvailable = frontCameraIfAvailable;
     previewCallback = new PreviewCallback(configManager);
   }
 
@@ -81,7 +85,7 @@ public final class CameraManager {
   public synchronized void openDriver(SurfaceHolder holder) throws IOException {
     Camera theCamera = camera;
     if (theCamera == null) {
-      theCamera = new OpenCameraManager().build().open();
+      theCamera = new OpenCameraManager().build().open(frontCameraIfAvailable);
       if (theCamera == null) {
         throw new IOException();
       }

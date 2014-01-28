@@ -77,6 +77,7 @@ public final class BarcodeFragment extends Fragment implements
 	private String characterSet;
 	private InactivityTimer inactivityTimer;
 	private AmbientLightManager ambientLightManager;
+	private boolean frontCameraIfAvailable;
 
 	public ViewfinderView getViewfinderView() {
 		return viewfinderView;
@@ -131,7 +132,7 @@ public final class BarcodeFragment extends Fragment implements
 		// first launch. That led to bugs where the scanning rectangle was the
 		// wrong size and partially
 		// off screen.
-		cameraManager = new CameraManager(this.getActivity(), getView());
+		cameraManager = new CameraManager(this.getActivity(), getView(), frontCameraIfAvailable);
 		viewfinderView.setCameraManager(cameraManager);
 
 		handler = null;
@@ -370,5 +371,9 @@ public final class BarcodeFragment extends Fragment implements
 	
 	public void setDecodeHints(Map<DecodeHintType, ?> hints) {
 		this.decodeHints = hints;
+	}
+	
+	public void setFrontCamera(boolean frontCameraIfAvailable) {
+		this.frontCameraIfAvailable = frontCameraIfAvailable;
 	}
 }
